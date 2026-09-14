@@ -1,7 +1,7 @@
 from aiogram import Bot, Dispatcher
 from decouple import config
 
-Admin = [8946046965,]
+Admin = [6155653670, ]
 
 token_bot = config("TOKEN")
 # print(token_bot)

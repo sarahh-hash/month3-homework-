@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from database import db
 
 router_form = Router()
 
@@ -53,8 +54,14 @@ async def get_address(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
+    db.add_order(
+        data["size"],
+        data["topping"],
+        data["address"]
+    )
+
     await message.answer(
-        f"🍕 Ваш заказ:\n"
+        f"Ваш заказ сохранён!\n"
         f"Размер: {data['size']}\n"
         f"Начинка: {data['topping']}\n"
         f"Адрес: {data['address']}"
