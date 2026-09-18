@@ -54,10 +54,16 @@ async def get_address(message: Message, state: FSMContext):
 
     data = await state.get_data()
 
-    db.add_order(
+    # Сохраняем заказ в первую таблицу
+    order_id = await db.add_order(
         data["size"],
-        data["topping"],
         data["address"]
+    )
+
+    # Сохраняем начинку во вторую таблицу
+    await db.add_order_details(
+        order_id,
+        data["topping"]
     )
 
     await message.answer(
@@ -68,3 +74,4 @@ async def get_address(message: Message, state: FSMContext):
     )
 
     await state.clear()
+
