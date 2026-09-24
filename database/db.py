@@ -1,4 +1,6 @@
 import aiosqlite
+from config import path_db
+from database import queries
 
 from database.queries import (
     create_orders_table,
@@ -7,9 +9,6 @@ from database.queries import (
     insert_order_details,
     select_orders
 )
-
-
-path_db = "database/sqlite3.db"
 
 
 async def init_db():
@@ -22,11 +21,11 @@ async def init_db():
     print("БД подключена!")
 
 
-async def add_order(size, address):
+async def add_order(size, address, photo_id):
     async with aiosqlite.connect(path_db) as db:
         cursor = await db.execute(
             insert_order,
-            (size, address)
+            (size, address, photo_id)
         )
 
         order_id = cursor.lastrowid
@@ -50,6 +49,6 @@ async def get_orders():
     async with aiosqlite.connect(path_db) as db:
         cursor = await db.execute(select_orders)
 
-        orders = await cursor.fetchall()
+        rows = await cursor.fetchall()
 
-        return orders
+        return rows

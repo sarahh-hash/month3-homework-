@@ -17,6 +17,7 @@ async def set_commands():
         BotCommand(command="sticker", description="Стикер"),
         BotCommand(command="form", description="Заказать пиццу"),
         BotCommand(command="cancel", description="Отменить анкету"),
+        BotCommand(command='orders',description='Мои заказы'),
     ]
 
     await bot.set_my_commands(commands_list)
@@ -24,19 +25,15 @@ async def set_commands():
 
 async def main():
     logging.basicConfig(level=logging.INFO)
-
-    # Создаём таблицы
     await db.init_db()
 
-    # Команды бота
     await set_commands()
 
-    # Подключаем handlers
+
     dp.include_router(commands.router_commands)
     dp.include_router(form.router_form)
     dp.include_router(echo.router_echo)
 
-    # Запускаем бота
     await dp.start_polling(bot)
 
 

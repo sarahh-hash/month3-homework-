@@ -4,6 +4,7 @@ from aiogram import F, Router
 from aiogram.filters import Command
 from aiogram.types import Message, FSInputFile
 from config import bot
+from database import db
 
 router_commands = Router()
 
@@ -60,6 +61,32 @@ async def random_handler(message: Message):
 
 @router_commands.message(Command("joke"))
 async def joke_handler(message: Message):
-    # random.choice() вызывается внутри хэндлера для обновления выбора
     joke = random.choice(JOKES)
     await message.answer(joke)
+
+@router_commands.message(Command("orders"))
+async def orders(message: Message):
+    orders = await db.get_orders()
+
+    if not orders:
+        await message.answer("Заказов пока нет.")
+        return
+
+    for order in orders:
+        order_id = order[0]
+        size = order[1]
+        address = order[2]
+        photo_id = order[3]
+        topping = order[4]
+
+        caption = (
+            f"Заказ №{order_id}\n"
+            f"Размер: {size}\n"
+            f"Начинка: {topping}\n"
+            f"Адрес: {address}"
+        )
+
+        await message.answer_photo(
+            photo=photo_id,
+            caption=caption
+        )
