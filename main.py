@@ -7,7 +7,7 @@ from aiogram.types import BotCommand
 from config import bot, dp
 from handlers import commands, echo, form
 from database import db
-
+from handlers.fsm_delete import router_delete
 
 async def set_commands():
     commands_list = [
@@ -33,6 +33,7 @@ async def main():
     dp.include_router(commands.router_commands)
     dp.include_router(form.router_form)
     dp.include_router(echo.router_echo)
+    dp.include_router(router_delete)
 
     await dp.start_polling(bot)
 

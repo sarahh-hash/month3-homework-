@@ -5,6 +5,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, FSInputFile
 from config import bot
 from database import db
+from handlers.button import delete_button
 
 router_commands = Router()
 
@@ -88,5 +89,6 @@ async def orders(message: Message):
 
         await message.answer_photo(
             photo=photo_id,
-            caption=caption
+            caption=caption,
+            reply_markup=delete_button(order_id)
         )

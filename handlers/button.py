@@ -45,3 +45,16 @@ topping_buttons = InlineKeyboardMarkup(
         ]
     ]
 )
+
+
+def delete_button(order_id):
+    return InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                InlineKeyboardButton(
+                    text="🗑 Удалить",
+                    callback_data=f"delete:{order_id}"
+                )
+            ]
+        ]
+    )

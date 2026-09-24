@@ -37,3 +37,11 @@ FROM orders
 INNER JOIN order_details
 ON orders.id = order_details.order_id
 """
+
+delete_order = """
+DELETE FROM orders WHERE id = ?
+"""
+
+delete_order_details = """
+DELETE FROM order_details WHERE order_id = ?
+"""

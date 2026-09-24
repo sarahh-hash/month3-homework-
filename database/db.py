@@ -2,13 +2,8 @@ import aiosqlite
 from config import path_db
 from database import queries
 
-from database.queries import (
-    create_orders_table,
-    create_order_details_table,
-    insert_order,
-    insert_order_details,
-    select_orders
-)
+from database.queries import create_orders_table,create_order_details_table,insert_order,insert_order_details,select_orders
+
 
 
 async def init_db():
@@ -52,3 +47,11 @@ async def get_orders():
         rows = await cursor.fetchall()
 
         return rows
+
+
+async def delete_order_by_id(order_id):
+    async with aiosqlite.connect(path_db) as db:
+        await db.execute(queries.delete_order_details, (order_id,))
+        await db.execute(queries.delete_order, (order_id,))
+
+        await db.commit()
